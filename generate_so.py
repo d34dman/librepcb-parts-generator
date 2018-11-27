@@ -2,6 +2,7 @@
 Generate the following SO packages:
 
 - SOIC (both EIAJ and JEDEC)
+- TSSOP
 
 """
 from os import path, makedirs
@@ -92,6 +93,8 @@ def generate_pkg(
     lead_width: float,
     lead_length: float,
     lead_contact_length: float,
+    pad_width_reflow: float,
+    pad_width_handsoldering: float,
     pkgcat: str,
     keywords: str,
     top_offset: float,
@@ -231,8 +234,8 @@ def generate_pkg(
 
                 lines.append(' )')
 
-            add_footprint_variant('reflow', 'reflow', 0.6, 0.0)
-            add_footprint_variant('handsoldering', 'hand soldering', 0.7, 0.5)
+            add_footprint_variant('reflow', 'reflow', pad_width_reflow, 0.0)  # 0.6
+            add_footprint_variant('handsoldering', 'hand soldering', pad_width_handsoldering, 0.5)  # 0.7
 
             lines.append(')')
 
@@ -268,6 +271,8 @@ if __name__ == '__main__':
         lead_width=0.4,
         lead_length=1.6,
         lead_contact_length=0.8,
+        pad_width_reflow=0.6,
+        pad_width_handsoldering=0.7,
         pkgcat='a074fabf-4912-4c29-bc6b-451bf43c2193',
         keywords='so,soic,small outline,smd,eiaj',
         top_offset=1.0,
@@ -288,6 +293,8 @@ if __name__ == '__main__':
         lead_width=0.4,
         lead_length=1.6,
         lead_contact_length=0.8,
+        pad_width_reflow=0.6,
+        pad_width_handsoldering=0.7,
         pkgcat='a074fabf-4912-4c29-bc6b-451bf43c2193',
         keywords='so,soic,small outline,smd,eiaj',
         top_offset=1.0,
@@ -308,9 +315,34 @@ if __name__ == '__main__':
         lead_width=0.45,
         lead_length=1.04,
         lead_contact_length=0.835,
+        pad_width_reflow=0.6,
+        pad_width_handsoldering=0.7,
         pkgcat='a074fabf-4912-4c29-bc6b-451bf43c2193',
         keywords='so,soic,small outline,smd,jedec',
         top_offset=0.8,
         create_date='2018-11-10T20:32:03Z',
+    )
+    _make('out/tssop')
+    _make('out/tssop/pkg')
+    generate_pkg(
+        dirpath='out/tssop/pkg',
+        author='Danilo B.',
+        name='TSSOP50P500X{height}-{pin_count}',
+        description='{pin_count}-pin Think-Shrink Small Outline Package (TSSOP).\\n\\n'
+                    'Pitch: 0.5 mm\\nHeight: {height:.2f}mm',
+        pitch=0.5,
+        pins=[8, 10, 14, 16, 20, 24],
+        heights=[1.10],
+        body_width=3.0,
+        total_width=5.0,
+        lead_width=0.27,
+        lead_length=0.94,
+        lead_contact_length=0.7,
+        pad_width_reflow=0.35,
+        pad_width_handsoldering=0.35,
+        pkgcat='241d9d5d-8f74-4740-8901-3cf51cf50091',
+        keywords='so,sop,tssop,small outline package,smd',
+        top_offset=0.5,
+        create_date='2018-11-27T21:33:11Z',
     )
     save_cache(uuid_cache_file, uuid_cache)
